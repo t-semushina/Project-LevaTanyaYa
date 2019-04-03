@@ -1,7 +1,11 @@
-width = 1000
-height = 700
-Number_of_enemies = 70
+screen_width = 700
+screen_height = 700
+canvas_width = 700
+canvas_height = 700
+Number_of_enemies = 30
+Number_of_blocks = 1
 g = 250
-max_rad = 80
-relation = 0.5
+max_rad = 30
+relation = 1
 mass = 2
+size = 15
