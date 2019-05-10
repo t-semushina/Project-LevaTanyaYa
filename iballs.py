@@ -1,8 +1,8 @@
-import sys
 import pygame
 import random
 import math
 import settings
+import reflection
 
 
 class Ball:
@@ -32,6 +32,54 @@ class Ball:
         if (self.y <= self.radius):
             self.y += self.radius - self.y
             self.vy = -self.vy
+
+        for j in range(settings.Number_of_blocks):
+            if (abs(self.x - blocks[j].center_x) <= self.radius + blocks[j].lenx / 2) and \
+                    (abs (self.y - blocks[j].center_y) <= self.radius + blocks[j].leny / 2) and \
+                    ((math.sqrt ((self.x - blocks[j].center_x) ** 2 + (self.y - blocks[j].center_y) ** 2)) <= (self.radius + 1/2 * math.sqrt(blocks[j].lenx ** 2 + blocks[j].leny ** 2))):
+                if (abs(self.x - blocks[j].center_x) <= self.radius + blocks[j].lenx / 2) and (blocks[j].center_y - (blocks[j].leny / 2) <= self.y) and \
+                        (self.y <= blocks[j].center_y + (blocks[j].leny / 2)):
+                    self.vx = -self.vx
+                    if self.x < blocks[j].center_x:
+                        self.x -= (self.radius + self.x) - (blocks[j].center_x - blocks[j].lenx / 2)
+                    if self.x > blocks[j].center_x:
+                        self.x += (blocks[j].center_x + blocks[j].lenx / 2) - (self.x - self.radius)
+                if (self.y - blocks[j].center_y <= self.radius + blocks[j].leny / 2) and \
+                        (blocks[j].center_x - (blocks[j].lenx / 2) <= self.x) and \
+                        (self.x <= blocks[j].center_x + (blocks[j].lenx / 2)):
+                    self.vy = -self.vy
+                    if self.y < blocks[j].center_y:
+                        self.y -= (self.radius + self.y) - (blocks[j].center_y - blocks[j].leny / 2)
+                    if self.y > blocks[j].center_y:
+                        self.y += (blocks[j].center_y + blocks[j].leny / 2) - (self.y - self.radius)
+                if (abs(self.x - blocks[j].center_x) < self.radius + blocks[j].lenx / 2) and \
+                    (abs (self.y - blocks[j].center_y) < self.radius + blocks[j].leny / 2) and \
+                    ((math.sqrt((self.x - blocks[j].center_x + blocks[j].lenx / 2) ** 2 + (self.y - blocks[j].center_y + blocks[j].leny / 2) ** 2) < self.radius) or
+                    (math.sqrt((self.x - blocks[j].center_x - blocks[j].lenx / 2) ** 2 + (self.y - blocks[j].center_y + blocks[j].leny / 2) ** 2) < self.radius) or
+                    (math.sqrt((self.x - blocks[j].center_x + blocks[j].lenx / 2) ** 2 + (self.y - blocks[j].center_y - blocks[j].leny / 2) ** 2) < self.radius) or
+                    (math.sqrt((self.x - blocks[j].center_x - blocks[j].lenx / 2) ** 2 + (self.y - blocks[j].center_y - blocks[j].leny / 2) ** 2) < self.radius)):
+                    self.vx = reflection.reflect(self.x, self.y, blocks[j].center_x, blocks[j].center_y, self.vx, self.vy, 0, 0)[0]
+                    self.vy = reflection.reflect(self.x, self.y, blocks[j].center_x, blocks[j].center_y, self.vx, self.vy, 0, 0)[1]
+                    if (math.sqrt((self.x - blocks[j].center_x + blocks[j].lenx / 2) ** 2 + (self.y - blocks[j].center_y + blocks[j].leny / 2) ** 2) < self.radius):
+                        self.x -= -(math.sqrt((self.x - blocks[j].center_x + blocks[j].lenx / 2) ** 2 +
+                                (self.y - blocks[j].center_y + blocks[j].leny / 2) ** 2)) + self.radius
+                        self.y -= -(math.sqrt((self.x - blocks[j].center_x + blocks[j].lenx / 2) ** 2 +
+                                (self.y - blocks[j].center_y + blocks[j].leny / 2) ** 2)) + self.radius
+                    if (math.sqrt((self.x - blocks[j].center_x - blocks[j].lenx / 2) ** 2 + (self.y - blocks[j].center_y - blocks[j].leny / 2) ** 2) < self.radius):
+                        self.x += -(math.sqrt((self.x - blocks[j].center_x - blocks[j].lenx / 2) ** 2 +
+                                (self.y - blocks[j].center_y - blocks[j].leny / 2) ** 2)) + self.radius
+                        self.y += -(math.sqrt((self.x - blocks[j].center_x - blocks[j].lenx / 2) ** 2 +
+                                (self.y - blocks[j].center_y - blocks[j].leny / 2) ** 2)) + self.radius
+                    if (math.sqrt((self.x - blocks[j].center_x - blocks[j].lenx / 2) ** 2 + (self.y - blocks[j].center_y + blocks[j].leny / 2) ** 2) < self.radius):
+                        self.x += -(math.sqrt((self.x - blocks[j].center_x - blocks[j].lenx / 2) ** 2 +
+                                (self.y - blocks[j].center_y + blocks[j].leny / 2) ** 2)) + self.radius
+                        self.y -= -(math.sqrt((self.x - blocks[j].center_x - blocks[j].lenx / 2) ** 2 +
+                                (self.y - blocks[j].center_y + blocks[j].leny / 2) ** 2)) + self.radius
+                    if (math.sqrt((self.x - blocks[j].center_x + blocks[j].lenx / 2) ** 2 + (self.y - blocks[j].center_y - blocks[j].leny / 2) ** 2) < self.radius):
+                        self.x -= -(math.sqrt((self.x - blocks[j].center_x + blocks[j].lenx / 2) ** 2 +
+                                (self.y - blocks[j].center_y - blocks[j].leny / 2) ** 2)) + self.radius
+                        self.y += -(math.sqrt((self.x - blocks[j].center_x + blocks[j].lenx / 2) ** 2 +
+                                (self.y - blocks[j].center_y - blocks[j].leny / 2) ** 2)) + self.radius
 
 
 
