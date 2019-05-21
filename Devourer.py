@@ -16,7 +16,7 @@ clock = pygame.time.Clock()
 blocks = []
 for j in range(settings.Number_of_blocks):
     blocks.append(iblocks.Block(random.randint(0, settings.canvas_width), random.randint(0, settings.canvas_height),
-                    random.randint(70, 120), random.randint(70, 120), random.randint(100, 150), random.randint(0, 50), random.randint(0, 50)))
+                    random.randint(10, 40), random.randint(100, 150), random.randint(100, 150), random.randint(0, 50), random.randint(0, 50)))
 
 ballplayer = playballs.Ball(settings.screen_width / 2, settings.screen_height / 2, 0, 0, settings.size, 0, 200, 120, 0, 0, settings.mass)
 balls = []
