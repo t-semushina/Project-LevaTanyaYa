@@ -6,9 +6,15 @@ import settings
 
 
 class Block:
-    def __init__(self, x, y, lenx, leny, r, g, b):
+    def __init__(self, x, y, lex, ley, r, g, b):
         self.x = x
         self.y = y
+        len = [lex, ley]
+        lenx = random.choice(len)
+        if lenx == lex:
+            leny = ley
+                else:
+            leny = lex
         self.lenx = lenx
         self.leny = leny
         self.r = r
